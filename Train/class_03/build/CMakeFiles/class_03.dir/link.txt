@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/class_03.dir/link.d CMakeFiles/class_03.dir/main.cpp.o CMakeFiles/class_03.dir/src/MarkerManager.cpp.o -o class_03
