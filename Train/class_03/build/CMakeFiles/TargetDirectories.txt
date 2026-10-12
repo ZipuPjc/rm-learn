@@ -1,0 +1,3 @@
+/home/zipu/Documents/VScode-rm/class_03/build/CMakeFiles/class_03.dir
+/home/zipu/Documents/VScode-rm/class_03/build/CMakeFiles/edit_cache.dir
+/home/zipu/Documents/VScode-rm/class_03/build/CMakeFiles/rebuild_cache.dir
