@@ -3,6 +3,7 @@
 2.  OpenCV学习量还是挺大的，每段代码至少敲过两边，后面需要加强下函数
 2.  5天前进的rm,前三课相关习题已补上
 3.  借助chatgpt与xmind自学，文件基于Ubuntu 26.04.1下VScode编译
+4.  该项目build未删除
 
 ## homework
 ### Practice 1
