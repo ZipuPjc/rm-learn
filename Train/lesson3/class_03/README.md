@@ -4,7 +4,7 @@
     2.需要注意：CMake需要重新编译，工程向路径改变（利用chatgpt修改CMakeLists.txt）
     3.附加体简单看了下，1.使用sort+cmp或者lambada排序 2.while+switch（此处代码均由gpt完成）
 ## 课程
-    1.含糊不清，课程深浅度不够，属于就基本大纲看到什么讲什么的感觉
+    1.含糊不清，课程深浅度不够
     2.课程源码未开源，仅发布当前课程相关，自学平台资源差
     2.讲课建议参考北理工追梦实验室课程 https://b23.tv/C8AuEDU
     3.资料建议参考北航战队github开源学习 https://github.com/LemperorD/learningRM_alg
