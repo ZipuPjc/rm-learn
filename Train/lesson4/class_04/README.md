@@ -1,9 +1,8 @@
 ## personality
-1.  目前只完成基础题三道，这几天太忙，接下来两天补完
+1.  已完成基础和附加题
 2.  OpenCV学习量还是挺大的，每段代码至少敲过两边，后面需要加强下函数
 2.  5天前进的rm,前三课相关习题已补上
 3.  借助chatgpt与xmind自学，文件基于Ubuntu 26.04.1下VScode编译
-4.  该项目build未删除
 
 ## homework
 ### Practice 1
@@ -22,3 +21,14 @@
 1.  vector<Point2f> srcPoints
 2.  getPerspectiveTransform()+warpPerspective() 
 3.  透视找点解决
+### 附加题
+1.  morphologyEx() 通用形式 morphologyEx(mask,dst,op,kernel);
+闭操作 MORPH_CLOSE 膨胀 → 腐蚀 → 填小黑洞
+2.  Mat kernel = getStructuringElement(shape,ksiz，anchor);
+MORPH_RECT矩形
+MORPH_ELLIPSE椭圆
+MORPH_CROSS十字
+### 附加题2
+1.  createTrackbar()
+getTrackbarPos() 读取滑动条的值
+setTrackbarPos() 设置初始值
