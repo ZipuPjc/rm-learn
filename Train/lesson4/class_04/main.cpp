@@ -15,25 +15,20 @@ void printPixel(string name, Vec3b pixel)
 
 int main()
 {
-    // 1. 读取 Lena
     Mat img = imread("../assets/lena.jpg");
-
     if(img.empty())
     {
         cout << "Image not found!" << endl;
         return -1;
     }
     imshow("Lena", img);
-    // 2. 输出图像信息
     cout << "rows=" << img.rows << endl;
     cout << "cols=" << img.cols << endl;
     cout << "channels=" << img.channels() << endl;
     cout << "step=" << img.step << endl;
     cout << "Color order: BGR" << endl;
-    // 3. ROI
     Rect rect(200,180,220,240);
     Mat roi = img(rect);
-    // 原图副本
     Mat marked = img.clone();
     rectangle(marked,rect,Scalar(0,255,0),2);
     imshow("Marked", marked);
@@ -170,7 +165,7 @@ int main()
 
     Mat perspectiveMatrix = getPerspectiveTransform(
         srcPoints,
-        dstPoints
+        dstPoints  
     );
 
     warpPerspective(
@@ -189,5 +184,132 @@ int main()
     imshow("Sudoku Points", sudoku_points);
     imshow("Sudoku Corrected", sudoku_corrected);
 
+    cout<<"----------------------------------------------------------------------";
+    Mat fruits_img=imread("../assets/fruits.jpg",IMREAD_COLOR);
+    Mat fruits_hsv;
+    Mat fruits_mask;
+    cvtColor(fruits_img,fruits_hsv,COLOR_BGR2HSV);
+    inRange(fruits_hsv,Scalar(35,60,40),Scalar(60,255,255),fruits_mask);
+    Mat kernel=getStructuringElement(MORPH_RECT,Size(3,3));
+    Mat fruits_open;
+    morphologyEx(fruits_mask,fruits_open,MORPH_OPEN,kernel);
+    imshow("Original", fruits_img);
+    imshow("Mask", fruits_mask);
+    imshow("Open", fruits_open);
+    imwrite("../results/fruits_mask.png", fruits_mask);
+    imwrite("../results/fruits_open.png", fruits_open);
+    
+    cout<<"-------------------------------------------------------------------------";
+    Mat coins_tune_img = imread("../assets/coins.png", IMREAD_COLOR);
+    if (coins_tune_img.empty())
+    {
+        cout << "Coins image not found!" << endl;
+        return -1;
+    }
+    Mat coins_tune_gray;
+    cvtColor(coins_tune_img, coins_tune_gray, COLOR_BGR2GRAY);
+
+    namedWindow("Coins Tune Binary", WINDOW_NORMAL);
+    namedWindow("Coins Tune Result", WINDOW_NORMAL);
+    createTrackbar("Threshold", "Coins Tune Binary", nullptr, 255);
+    setTrackbarPos("Threshold", "Coins Tune Binary", 135);
+
+    Mat coins_tune_binary;
+    Mat coins_tune_result;
+
+    vector<vector<Point>> coins_tune_contours;
+    vector<vector<Point>> coins_tune_valid_contours;
+    int coins_tune_count = 0;
+    while (true)
+    {
+        int threshold_value =
+            getTrackbarPos("Threshold", "Coins Tune Binary");
+        threshold(
+            coins_tune_gray,
+            coins_tune_binary,
+            threshold_value,
+            255,
+            THRESH_BINARY
+        );
+        coins_tune_result = coins_tune_img.clone();
+        coins_tune_contours.clear();
+        coins_tune_valid_contours.clear();
+        findContours(
+            coins_tune_binary.clone(),
+            coins_tune_contours,
+            RETR_EXTERNAL,
+            CHAIN_APPROX_SIMPLE
+        );
+        for (int i = 0; i < (int)coins_tune_contours.size(); i++)
+        {
+            double area = contourArea(coins_tune_contours[i]);
+
+            if (area >= 250 && area <= 4000)
+            {
+                coins_tune_valid_contours.push_back(
+                    coins_tune_contours[i]
+                );
+            }
+        }
+        for (int i = 0; i < (int)coins_tune_valid_contours.size(); i++)
+        {
+            Rect box = boundingRect(coins_tune_valid_contours[i]);
+
+            rectangle(
+                coins_tune_result,
+                box,
+                Scalar(0, 255, 0),
+                2
+            );
+            int textY = max(15, box.y - 5);
+            putText(
+                coins_tune_result,
+                to_string(i + 1),
+                Point(box.x, textY),
+                FONT_HERSHEY_SIMPLEX,
+                0.5,
+                Scalar(0, 0, 255),
+                1
+            );
+        }
+        coins_tune_count =
+            (int)coins_tune_valid_contours.size();
+        putText(
+            coins_tune_result,
+            "Count: " + to_string(coins_tune_count),
+            Point(10, 25),
+            FONT_HERSHEY_SIMPLEX,
+            0.7,
+            Scalar(255, 0, 0),
+            2
+        );
+        imshow("Coins Tune Binary", coins_tune_binary);
+        imshow("Coins Tune Result", coins_tune_result);
+        if (waitKey(1) == 27)
+        {
+            break;
+        }
+    }
+    imwrite(
+        "../results/coins_tuned_binary.png",
+        coins_tune_binary
+    );
+
+    imwrite(
+        "../results/coins_tuned_counted.png",
+        coins_tune_result
+    );
+    cout << "最终阈值："
+        << getTrackbarPos("Threshold", "Coins Tune Binary")
+        << endl;
+
+    cout << "最终硬币数量："
+        << coins_tune_count
+        << endl;
+
+    cout << "调参结果已保存。" << endl;
     waitKey(0);
+    destroyWindow("Coins Tune Binary");
+    destroyWindow("Coins Tune Result");
+
 }
