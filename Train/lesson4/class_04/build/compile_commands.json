@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/zipu/Documents/VScode-rm/class_04/build",
-  "command": "/usr/bin/c++  -isystem /usr/include/opencv4 -g -std=gnu++17 -o CMakeFiles/main.dir/main.cpp.o -c /home/zipu/Documents/VScode-rm/class_04/main.cpp",
-  "file": "/home/zipu/Documents/VScode-rm/class_04/main.cpp",
-  "output": "CMakeFiles/main.dir/main.cpp.o"
-}
-]
